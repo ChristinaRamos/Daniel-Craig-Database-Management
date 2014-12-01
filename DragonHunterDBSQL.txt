@@ -1,0 +1,416 @@
+--Christina Craigmos
+--Dragon Hunter DB
+
+create type rarity as enum ('very common', 'common', 'uncommon', 'rare', 'very rare', 'extremely rare', 'one of a kind');
+
+create type size as enum ('extremely small','very small', 'small', 'medium', 'large', 'very large', 'extremely large');
+
+CREATE TABLE Elements (
+    	elementID	integer	NOT NULL PRIMARY KEY,
+   	name		text	NOT NULL
+);
+
+CREATE TABLE DragonSpecies (
+	speciesID	integer	NOT NULL PRIMARY KEY,
+    	name		text	NOT NULL UNIQUE,
+  	elementID	integer	NOT NULL REFERENCES Elements(elementID),
+   	appearance	text	NOT NULL,
+   	size		size	NOT NULL,
+   	timeActive	text	NOT NULL,
+   	canFly		boolean	NOT NULL,
+   	rarity		rarity	NOT NULL
+);
+
+CREATE TABLE Locations (
+	locationID		integer	NOT NULL PRIMARY KEY,
+	name			text	NOT NULL,
+	isAquatic		boolean	NOT NULL,
+	habitat			text	NOT NULL,
+	lowestTempInF		integer	NOT NULL,
+	highestTempInF		integer	NOT NULL,
+	percentclaimedByDragons	integer	NOT NULL
+);
+
+CREATE TABLE Attacks (
+	attackID	integer	NOT NULL PRIMARY KEY,
+	name		text	NOT NULL,
+	description	text	NOT NULL,
+	range		text	NOT NULL,
+	type		text	NOT NULL,
+	sideEffect	text
+);
+
+CREATE TABLE Spells (
+	magicID		integer	NOT NULL PRIMARY KEY,
+	name		text	NOT NULL,
+	description	text	NOT NULL,
+	range		text	NOT NULL,
+	type		text	NOT NULL,
+	sideEffect	text
+);
+
+CREATE TABLE ElemWeaknesses (
+    	elementID	integer	NOT NULL REFERENCES Elements(elementID),
+    	weakAgainst	text	NOT NULL,
+	PRIMARY KEY(elementID,weakAgainst) 
+);
+
+CREATE TABLE DragonLocations (
+	speciesID	integer	NOT NULL REFERENCES DragonSpecies(speciesID),
+	locationID	integer	NOT NULL REFERENCES Locations(locationID),
+	PRIMARY KEY(speciesID,locationID)
+);	
+
+
+CREATE TABLE PhysicalMoves (
+	speciesID	integer	NOT NULL REFERENCES DragonSpecies(speciesID),
+	attackID	integer	NOT NULL REFERENCES Attacks(attackID),
+	PRIMARY KEY(speciesID,attackID)
+);
+
+
+CREATE TABLE MagicalMoves (
+	speciesID	integer	NOT NULL REFERENCES DragonSpecies(speciesID),
+	magicID		integer	NOT NULL REFERENCES Spells(magicID),
+	PRIMARY KEY(speciesID,magicID)
+);
+	
+
+
+INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
+VALUES (1,'Black Drake',4,'Primarily a blueish black with a burnt orange underside.  Inside of wing is a dark dull orange.  Body is slim.  Very large wingspan.  Tail is long and has straight, cream colored spikes on the end.  Long neck.  Head is long and well defined.  Horns are cream colored, long, and straight.', 'medium', 'Night', true, 'extremely rare');
+
+INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
+VALUES (2,'Southern Sea Terror', 2, 'Primarily a bright cyan with a cream underside.  No legs and no wings.  Body is very long and thick, like an anaconda.  A single dorsal fin spans the entire top of the body.  Tail has large horizontal fin at the end of it.  Head is somewhat fish-like, with a noticeable underbite.  No horns, has three fins on the top of its head instead.', 'extremely large', 'Day', false, 'rare');
+
+INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
+VALUES (3,'Sun Serpent', 5,'Entirely a shiny golden color.  No legs, but has wings.  Body is long and snake-like, but thin and slender.  The wings attach at the tip of the tail so that the serpent looks like a large triangle when they are spread.  Head is small and short, and the horns curl up and inward, almost forming a halo above the head.', 'medium', 'Day', true, 'common');
+
+INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
+VALUES (4,'Eastern Lava-Eater', 1,'Primarily a deep red with a jet black underside.  Inside of wing is a darker red.  Body is bulky with large, thick scales.  Has four thick, muscular legs.  Head is huge, with a powerful jaw and three large, curved horns on the top, one in the center, and two at its sides.','very large', 'Day', true,'common');
+
+ 
+INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
+VALUES (5,'Earthshatterer',6,'Primarily a dark greenish brown with a lighter brown underside.  No wings.  Has four very thick and muscular legs.  Body is extremely thick and muscular.  Head is gigantic, with a noticeable underbite and a powerful lower jaw.  Instead of scales, the skin of the dragon is rocky.  Instead of wings, its back is covered in jagged rock-like spikes.','extremely large', 'Day', false,'uncommon');
+
+
+INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
+VALUES (6,'Wind Wyrm',7,'Primarily a light gray with a dark yellow underside.  Wings attach at the tip of the tail and make up most of the mass of the beast.  No legs or arms.  Body is slim and snake-like.  Small head, with feathery plumage covering the top.  Wings and back are covered in feathers.  Tail tip fans out with more feathers.','small','Night',true,'common');
+
+
+INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
+VALUES (7,'Bolt Lizard',3,'Bright yellow all around.  No wings.  Rhinocerous-like horns on the front of the head.  Short, stumpy body.  Short tail.  Shoulder-blades have spikes that conduct lightning.  Short, stumpy legs.','very small','Day',false,'very rare');
+
+INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
+VALUES (8,'Red Drake',1,'Primarily red with a yellow underside.  Large wings.  Horns curl like those of a ram.  Long slim body and tail.  Head is slender with slight overbite.  Often has a beard on the lower jaw.','medium','Day',true,'common');
+
+
+INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
+VALUES (9,'Altreus',5,'The dragon god of the sky.  His scales all give off a white-golden glow.  Largest wingspan of any dragon.  Has two muscular but slim legs.  His wings also act as his arms.  Tail is long and has an orb at the end that gives off a sun-like glow.  Eyes have no pupils, but just glow white-gold.','large','Day',true,'one of a kind');
+
+
+INSERT INTO Elements (elementID, name)
+VALUES (1,'fire');
+
+INSERT INTO Elements (elementID, name)
+VALUES (2,'water');
+
+INSERT INTO Elements (elementID, name)
+VALUES (3,'thunder');
+
+INSERT INTO Elements (elementID, name)
+VALUES (4,'darkness');
+
+INSERT INTO Elements (elementID, name)
+VALUES (5,'light');
+
+INSERT INTO Elements (elementID, name)
+VALUES (6,'earth');
+
+INSERT INTO Elements (elementID, name)
+VALUES (7,'air');
+
+
+INSERT INTO Locations (locationID, name, isAquatic, habitat, lowestTempInF, highesttempinf,percentclaimedbydragons)
+VALUES (1,'Everdark Forest',false,'Coniferous Forest',-40,50,85);
+
+INSERT INTO Locations (locationID, name, isAquatic, habitat, lowestTempInF, highesttempinf,percentclaimedbydragons)
+VALUES (2,'Dead Gulf',true,'Saltwater Ocean',-45,25,100);
+
+INSERT INTO Locations (locationID, name, isAquatic, habitat, lowestTempInF, highesttempinf,percentclaimedbydragons)
+VALUES (3,'Mulgore Grasslands',false,'Grasslands',40,100,50);
+
+INSERT INTO Locations (locationID, name, isAquatic, habitat, lowestTempInF, highesttempinf,percentclaimedbydragons)
+VALUES (4,'Mount Doom',false,'Volcano',200,1000,40);
+
+INSERT INTO Locations (locationID, name, isAquatic, habitat, lowestTempInF, highesttempinf,percentclaimedbydragons)
+VALUES (5,'Eastern Sea',true,'Saltwater Ocean',30,85,60);
+
+INSERT INTO Locations (locationID, name, isAquatic, habitat, lowestTempInF, highesttempinf,percentclaimedbydragons)
+VALUES (6,'Giri Desert',false,'Desert',75,150,20);
+
+INSERT INTO Attacks (attackID, name, description, range, type, sideEffect)
+VALUES (1, 'Bite','The dragon uses its jaws to clamp down on its victim.  Effectiveness depends greatly on size and strength of dragon.','melee','offensive','Bleeding.  Lost limbs.');
+
+INSERT INTO Attacks (attackID, name, description, range, type, sideEffect)
+VALUES (2,'Claw','The dragon uses its claws to swipe or rip at its victim.  Effectiveness depends greatly on size and strength of dragon.','melee','offensive','Bleeding.');
+
+INSERT INTO Attacks (attackID, name, description, range, type, sideEffect)
+VALUES (3,'Horn Thrust','The dragon uses the horns on its head to impale its victim.  This is easily the most lethal attack.','melee','offensive','Bleeding.  Dismemberment.  Instant death.');
+
+INSERT INTO Attacks (attackID, name, description, range, type, sideEffect)
+VALUES (4,'Tail Swipe','The dragon uses its tail to swiftly brush away its victim.  This is the least deadly attack, but when paired with environmental hazards or spiky tails, it can be quite damaging.','medium','both');
+
+INSERT INTO Attacks (attackID, name, description, range, type, sideEffect)
+VALUES (5,'Wing Shield','The dragon raises its wings in front of itself to block blows, projectiles, and magic.  Limited effectiveness against sharper weapons.  Effective against blunt weapons.','melee','defensive');
+
+
+
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
+VALUES (1,'Fire Breath','The dragon breathes deeply and releases a stream of extremely hot flames.','long','offensive','May cause severe burns.');
+
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
+VALUES (2,'Thunder Breath','The dragon breathes deeply and releases a stream of jolting electricity.','medium','offensive','May cause paralysis.');
+
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
+VALUES (3,'Ice Breath','The dragon inhales and shoots shards of ice and freezing cold water.','long','offensive','May cause freezing or pneumonia.');
+
+
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
+VALUES (4,'Shadow Breath','The dragon inhales and breathes pure concentrated darkness.','short','offensive','May cause insanity or illusions.');
+
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
+VALUES (5,'Earthquake','The dragon causes the earth to rumble and split.','long','offensive','May cause the earth to swallow you whole.');
+
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
+VALUES (6,'Air Breath','The dragon inhales and blows its victim away.  Literally.','long','offensive','May cause a tornado to form.');
+
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
+VALUES (7,'Elemental Shield','The dragon forms a shield of its element that blocks against elements that are weak against it.','short','defensive','Touching the shield may cause an effect related to the element.');
+
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
+VALUES (8,'Elemental Storm', 'The dragon causes its element to rain from the sky.','long','offensive','Side effects depend on element.  See breath effects.');
+
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
+VALUES (9,'Shapeshift','The dragon can assume the form of any other creature, humanoid or beast-like.','melee','defensive','May cause not knowing who the hell the dragon is anymore.');
+
+INSERT INTO Spells (magicID, name, description, range, type)
+VALUES (10,'Stealth','Allows the dragon to travel unseen.','melee','defensive','Attacks from stealth tend to be more deadly.');
+
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (1,1);
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (1,3);
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (2,1);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (2,4);
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (3,1);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (3,3);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (3,4);
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (4,1);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (4,2);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (4,3);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (4,5);
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (5,1);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (5,2);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (5,3);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (5,4);
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (6,1);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (6,4);
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (7,1);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (7,2);
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (8,2);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (8,3);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (8,5);
+
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (9,1);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (9,2);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (9,3);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (9,5);
+INSERT INTO PhysicalMoves(speciesID,attackID)
+VALUES (9,4);
+
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (1,4);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (1,7);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (1,8);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (1,10);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (1,9);
+
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (2,3);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (2,4);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (2,8);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (2,10);
+
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (3,1);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (3,2);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (3,8);
+
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (4,1);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (4,5);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (4,7);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (4,8);
+
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (5,2);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (5,5);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (5,7);
+
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (6,2);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (6,6);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (6,8);
+
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (7,2);
+
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (8,1);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (8,8);
+
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (9,1);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (9,2);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (9,3);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (9,6);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (9,7);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (9,8);
+INSERT INTO magicalmoves(speciesID,magicID)
+VALUES (9,9);
+
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (1,1);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (2,5);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (2,2);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (3,3);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (3,6);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (4,4);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (5,3);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (5,6);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (6,3);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (7,4);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (7,6);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (8,4);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (9,2);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (9,5);
+INSERT INTO dragonlocations(speciesID,locationID)
+VALUES (9,4);
+
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (1,'water');
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (1,'earth');
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (1,'light');
+
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (2,'thunder');
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (2,'darkness');
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (3,'earth');
+
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (4,'light');
+
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (5,'air');
+
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (6,'air');
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (6,'water');
+
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (7,'thunder');
+INSERT INTO Elemweaknesses(elementID,weakAgainst)
+VALUES (7,'darkness');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
