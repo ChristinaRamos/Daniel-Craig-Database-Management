@@ -75,7 +75,26 @@ CREATE TABLE MagicalMoves (
 	PRIMARY KEY(speciesID,magicID)
 );
 	
+INSERT INTO Elements (elementID, name)
+VALUES (1,'fire');
 
+INSERT INTO Elements (elementID, name)
+VALUES (2,'water');
+
+INSERT INTO Elements (elementID, name)
+VALUES (3,'thunder');
+
+INSERT INTO Elements (elementID, name)
+VALUES (4,'darkness');
+
+INSERT INTO Elements (elementID, name)
+VALUES (5,'light');
+
+INSERT INTO Elements (elementID, name)
+VALUES (6,'earth');
+
+INSERT INTO Elements (elementID, name)
+VALUES (7,'air');
 
 INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,canFly,rarity)	
 VALUES (1,'Black Drake',4,'Primarily a blueish black with a burnt orange underside.  Inside of wing is a dark dull orange.  Body is slim.  Very large wingspan.  Tail is long and has straight, cream colored spikes on the end.  Long neck.  Head is long and well defined.  Horns are cream colored, long, and straight.', 'medium', 'Night', true, 'extremely rare');
@@ -109,27 +128,6 @@ INSERT INTO DragonSpecies (speciesID,name,elementID,appearance,size,timeActive,c
 VALUES (9,'Altreus',5,'The dragon god of the sky.  His scales all give off a white-golden glow.  Largest wingspan of any dragon.  Has two muscular but slim legs.  His wings also act as his arms.  Tail is long and has an orb at the end that gives off a sun-like glow.  Eyes have no pupils, but just glow white-gold.','large','Day',true,'one of a kind');
 
 
-INSERT INTO Elements (elementID, name)
-VALUES (1,'fire');
-
-INSERT INTO Elements (elementID, name)
-VALUES (2,'water');
-
-INSERT INTO Elements (elementID, name)
-VALUES (3,'thunder');
-
-INSERT INTO Elements (elementID, name)
-VALUES (4,'darkness');
-
-INSERT INTO Elements (elementID, name)
-VALUES (5,'light');
-
-INSERT INTO Elements (elementID, name)
-VALUES (6,'earth');
-
-INSERT INTO Elements (elementID, name)
-VALUES (7,'air');
-
 
 INSERT INTO Locations (locationID, name, isAquatic, habitat, lowestTempInF, highesttempinf,percentclaimedbydragons)
 VALUES (1,'Everdark Forest',false,'Coniferous Forest',-40,50,85);
@@ -158,10 +156,10 @@ VALUES (2,'Claw','The dragon uses its claws to swipe or rip at its victim.  Effe
 INSERT INTO Attacks (attackID, name, description, range, type, sideEffect)
 VALUES (3,'Horn Thrust','The dragon uses the horns on its head to impale its victim.  This is easily the most lethal attack.','melee','offensive','Bleeding.  Dismemberment.  Instant death.');
 
-INSERT INTO Attacks (attackID, name, description, range, type, sideEffect)
+INSERT INTO Attacks (attackID, name, description, range, type)
 VALUES (4,'Tail Swipe','The dragon uses its tail to swiftly brush away its victim.  This is the least deadly attack, but when paired with environmental hazards or spiky tails, it can be quite damaging.','medium','both');
 
-INSERT INTO Attacks (attackID, name, description, range, type, sideEffect)
+INSERT INTO Attacks (attackID, name, description, range, type)
 VALUES (5,'Wing Shield','The dragon raises its wings in front of itself to block blows, projectiles, and magic.  Limited effectiveness against sharper weapons.  Effective against blunt weapons.','melee','defensive');
 
 
@@ -194,7 +192,7 @@ VALUES (8,'Elemental Storm', 'The dragon causes its element to rain from the sky
 INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
 VALUES (9,'Shapeshift','The dragon can assume the form of any other creature, humanoid or beast-like.','melee','defensive','May cause not knowing who the hell the dragon is anymore.');
 
-INSERT INTO Spells (magicID, name, description, range, type)
+INSERT INTO Spells (magicID, name, description, range, type, sideEffect)
 VALUES (10,'Stealth','Allows the dragon to travel unseen.','melee','defensive','Attacks from stealth tend to be more deadly.');
 
 
@@ -395,22 +393,3 @@ INSERT INTO Elemweaknesses(elementID,weakAgainst)
 VALUES (7,'thunder');
 INSERT INTO Elemweaknesses(elementID,weakAgainst)
 VALUES (7,'darkness');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
