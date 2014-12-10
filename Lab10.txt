@@ -1,0 +1,24 @@
+Christina Ramos
+Lab 10
+This was actually pretty fun, Alan.
+11/29/2014
+
+1.)
+create or replace function PreReqsFor (param integer)
+returns table("num" integer, "name" text) as $$
+  begin
+    return query select c.num as "num", c.name as "name"
+    from courses c, prerequisites p
+    where p.coursenum = param and c.num = p.prereqnum;
+  end;
+$$ LANGUAGE plpgsql;
+
+2.)
+create or replace function IsPreReqFor (param integer)
+returns table("num" integer, "name" text) as $$
+  begin
+    return query select c.num as "num", c.name as "name"
+    from courses c, prerequisites p
+    where p.prereqnum = param and c.num = p.coursenum;
+  end;
+$$ LANGUAGE plpgsql;
